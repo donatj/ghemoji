@@ -98,7 +98,7 @@ var emoji = map[string]string{
 	"pouting_cat":                      "😾",
 	"raised_hands":                     "🙌",
 	"clap":                             "👏",
-	"&#43;1":                           "👍",
+	"+1":                               "👍",
 	"thumbsup":                         "👍",
 	"-1":                               "👎",
 	"thumbsdown":                       "👎",
