@@ -1085,7 +1085,7 @@ var emoji = map[string]string{
 	"game_die":                             "🎲",
 	"jigsaw":                               "🧩",
 	"teddy_bear":                           "🧸",
-	"pi_ata":                               "🪅",
+	"pinata":                               "🪅",
 	"nesting_dolls":                        "🪆",
 	"spades":                               "♠️",
 	"hearts":                               "♥️",
