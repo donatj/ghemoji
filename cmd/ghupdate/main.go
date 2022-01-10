@@ -41,9 +41,13 @@ package {{.Package}}
 
 var EmojiDataset = {{.EmojiData | printf "%#v"}}
 
-var EmojiAliasMap = map[string]EmojiData{
-	{{range $key, $val := .EmojiData}}{{if $val.Emoji}}{{range .Aliases}}	"{{.}}": EmojiDataset[{{$key}}],
+var EmojiAliasMap = map[string]*EmojiData{
+	{{range $key, $val := .EmojiData}}{{if $val.Emoji}}{{range .Aliases}}	"{{.}}": &EmojiDataset[{{$key}}],
 	{{end}}{{end}}{{end}}}
+
+var EmojiMap = map[string]*EmojiData{
+	{{range $key, $val := .EmojiData}}{{if $val.Emoji}}	"{{$val.Emoji}}": &EmojiDataset[{{$key}}],
+	{{end}}{{end}}}
 
 `
 
