@@ -9,8 +9,8 @@ import "strings"
 //
 // @todo: optimization
 func ReplaceAll(input string) string {
-	for k, r := range emoji {
-		input = strings.Replace(input, ":"+k+":", r, -1)
+	for k, r := range EmojiAliasMap {
+		input = strings.Replace(input, ":"+k+":", r.Emoji, -1)
 	}
 
 	return input
