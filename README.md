@@ -4,4 +4,4 @@
 [![GoDoc](https://godoc.org/github.com/donatj/ghemoji?status.svg)](https://godoc.org/github.com/donatj/ghemoji)
 [![Build Status](https://travis-ci.org/donatj/ghemoji.svg?branch=master)](https://travis-ci.org/donatj/ghemoji)
 
-Golang library for working with github :emoji:
+Golang library for working with GitHub's `:emoji:`
