@@ -1,52 +1,43 @@
 package main
 
 import (
+	"bufio"
 	"flag"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"strings"
 
 	"github.com/donatj/ghemoji"
+	"github.com/mattn/go-isatty"
 )
 
 func main() {
-	// right now, we are not using flag, but we could
-	// so let's plan it
 	flag.Usage = usage
 	flag.Parse()
 
-	input, err := readInput()
-	if err != nil {
-		flag.Usage()
-		fmt.Fprintln(os.Stderr, err)
-		os.Exit(2)
+	data := strings.Join(flag.Args(), " ")
+	if data != "" {
+		fmt.Println(ghemoji.ReplaceAll(data))
+		return
 	}
 
-	fmt.Fprintln(os.Stdout, ghemoji.ReplaceAll(input))
+	if isatty.IsTerminal(os.Stdin.Fd()) {
+		fmt.Fprintf(os.Stderr, "Reading from standard input... (press Ctrl-D to end)\n")
+	}
+
+	scanner := bufio.NewScanner(os.Stdin)
+	for scanner.Scan() {
+		fmt.Println(ghemoji.ReplaceAll(scanner.Text()))
+	}
+
+	if err := scanner.Err(); err != nil {
+		fmt.Fprintln(os.Stderr, "Error reading standard input:", err)
+		flag.Usage()
+	}
 }
 
 func usage() {
 	fmt.Fprintf(os.Stderr, "Usage: %s [text]\n", os.Args[0])
-	fmt.Fprintf(os.Stderr, "or pipe text to the program\n")
+	fmt.Fprintf(os.Stderr, "  Reads from standard input if no text arguments are provided.\n")
 	flag.PrintDefaults()
-}
-
-// readInput reads input from stdin if stdin is a named pipe.
-// Otherwise, it joins the command-line arguments with a space separator.
-func readInput() (string, error) {
-	info, err := os.Stdin.Stat()
-	if err != nil {
-		return "", fmt.Errorf("getting stat from stdin: %w", err)
-	}
-
-	if info.Mode()&os.ModeNamedPipe != 0 {
-		input, err := ioutil.ReadAll(os.Stdin)
-		if err != nil {
-			return "", fmt.Errorf("reading from stdin: %wv", err)
-		}
-		return string(input), nil
-	}
-
-	return strings.Join(flag.Args(), " "), nil
 }
